@@ -5,6 +5,7 @@ name = "pypi"
 
 [scripts]
 getkey = 'pipenv run python getkey.py'
+devices = 'pipenv run python getdevices.py'
 
 [packages]
 python-dotenv = "*"

@@ -15,6 +15,14 @@ def c_to_f(temp:float)->float:
 
 
 def time_format(time:int)->str:
+  """Format the time in seconds to hh:mm:ss
+
+  Args:
+      time (int): time, in seconds
+
+  Returns:
+      str: formatted time string
+  """
   if time == -1:
     return "Estimating..."
   else:
