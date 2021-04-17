@@ -1,3 +1,4 @@
+"""Script to create a Meater instance and print output of get_devices()"""
 from meater import Meater
 
 device_data = Meater().get_devices()

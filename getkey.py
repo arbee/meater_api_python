@@ -1,3 +1,4 @@
+"""Utility script to fetch access token and attempt to save it to the .env"""
 import os
 import requests
 import json

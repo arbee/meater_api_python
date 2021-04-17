@@ -1,3 +1,4 @@
+"""Main Meater class and supporting functions"""
 import os
 import requests
 from dotenv import load_dotenv
@@ -33,11 +34,18 @@ def time_format(time:int)->str:
 
 
 class Meater():
+  """Main Meater class"""
   
   apiurl = os.getenv('MEATER_URL')
   key = os.getenv('MEATER_KEY')
   
   def __init__(self, convert_temp:bool=True):
+    """init method
+
+    Args:
+        convert_temp (bool, optional): Whether to convert temperatures from 
+        Celcius to Fahrenheit. Defaults to True.
+    """
     self.convert = convert_temp
     if not os.getenv('MEATER_KEY'):
       print("API key missing")
@@ -45,6 +53,7 @@ class Meater():
   
   @staticmethod    
   def _output_format(device:object, convert:bool):
+    """Private method to format the response from the Meater API"""
     if convert:
       device['temperature']['internal'] = c_to_f(device['temperature']['internal'])
       device['temperature']['ambient'] = c_to_f(device['temperature']['ambient'])
@@ -59,7 +68,12 @@ class Meater():
     return device
 
 
-  def get_devices(self):
+  def get_devices(self)->dict:
+    """Get information about all connected Meater probes
+
+    Returns:
+        dict: Formatted API response
+    """
     req = requests.get(Meater.apiurl + '/devices',
                                    headers={'Authorization': f'Bearer {Meater.key}'}).json()
     for device in req['data']['devices']:
@@ -68,7 +82,15 @@ class Meater():
     return req
 
 
-  def get_device(self, deviceid:str):
+  def get_device(self, deviceid:str)->dict:
+    """Get information for a single probe
+
+    Args:
+        deviceid (str): ID of the connected Meater probe
+
+    Returns:
+        dict: Formatted API response
+    """
     req = requests.get(Meater.apiurl + '/devices/' + deviceid,
                                    headers={'Authorization': f'Bearer {Meater.key}'}).json()
     req['data'] = Meater._output_format(req['data'], self.convert)
